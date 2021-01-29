@@ -1,0 +1,63 @@
+from random import choice
+computer_option = ['rock', 'scissors', 'paper']
+
+name_list = []
+rating_list = []
+_list = []
+file_open = open("rating.txt", 'r+')
+file_z = open("rat.txt", 'w')
+
+for line in file_open:
+    name_list.append(line.split()[0])
+    rating_list.append(int(line.split()[1]))
+  
+user_name = input("Enter your name: ")    
+user_rating = 0
+
+print('Hello, ' + user_name)
+if user_name in name_list:
+    user_rating = rating_list[name_list.index(user_name)]
+else:
+    name_list.append(user_name)
+
+while True:
+    user_option = input()
+    computer_choise = choice(computer_option)
+    if user_option == '!rating':
+        print("Your rating: ", user_rating) 
+    elif user_option == "!exit":
+        print("Bye!")
+        break      
+    elif user_option not in computer_option:
+        print("Invalid input")
+    elif user_option == computer_choise:
+        print(f"There is a draw ({computer_choise})")
+        user_rating += 50    
+    else:
+        if user_option == 'rock' and computer_choise == 'scissors':
+            print("Well done. The computer chose scissors and failed")
+            user_rating += 100
+        elif user_option == 'rock' and computer_choise == 'paper':
+            print("Sorry, but the computer chose paper")
+        elif user_option == 'scissors' and computer_choise == 'paper':
+            print("Well done. The computer chose paper and failed")
+            user_rating += 100
+        elif user_option == 'scissors' and computer_choise == 'rock':
+            print("Sorry, but the computer chose rock")
+        elif user_option == 'paper' and computer_choise == 'rock':
+            print("Well done. The computer chose rock and failed")
+            user_rating += 100
+        elif user_option == 'paper' and computer_choise == 'scissors':
+            print("Sorry, but the computer chose scissors")    
+if user_name in name_list:
+    rating_list[name_list.index(user_name)] = user_rating 
+else:
+    rating_list.append(user_rating)
+
+          
+for i in range(len(name_list)):
+    for j in range(i, i + 1):
+        file_z.write(name_list[i] + ' ' + str(rating_list[j]) + '\n')
+
+file_open.close()
+file_z.close()
